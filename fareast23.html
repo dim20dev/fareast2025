@@ -62,15 +62,15 @@
       align-items: center;
     }
     .logo { 
-      height:60px; 
+      height:50px; 
       width: auto;
       object-fit:contain; 
       transition: transform 0.3s;
       border-radius: 8px;
     }
     .logo:hover { transform: scale(1.05); }
-    .logo-text div {
-      color: white !important;
+    .logo-text {
+      display: none;
     }
     .nav-links {
       list-style:none;
@@ -265,6 +265,7 @@
       margin-bottom:20px;
       overflow-x: auto;
       padding-bottom: 5px;
+      scrollbar-width: thin;
     }
     .menu-tabs::-webkit-scrollbar {
       height: 5px;
@@ -282,6 +283,7 @@
       cursor:pointer;
       transition:all 0.2s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .menu-tab.active {
       background:var(--primary);
@@ -308,6 +310,9 @@
       margin-bottom: 1rem;
       padding-bottom: 0.5rem;
       border-bottom: 2px solid var(--primary-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .menu-items {
       display: grid;
@@ -329,6 +334,7 @@
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid #eee;
+      flex-shrink: 0;
     }
     .menu-item-content {
       flex: 1;
@@ -338,6 +344,7 @@
       margin-bottom: 0.5rem;
       display: flex;
       justify-content: space-between;
+      gap: 10px;
     }
     .menu-item-desc {
       font-size: 0.9rem;
@@ -347,6 +354,7 @@
     .menu-item-price {
       font-weight: 700;
       color: var(--primary);
+      white-space: nowrap;
     }
     .menu-item-number {
       color: var(--primary);
@@ -360,12 +368,12 @@
     /* Show more/less buttons */
     .menu-category-content {
       position: relative;
-      max-height: 1000px;
+      max-height: 500px;
       overflow: hidden;
       transition: max-height 0.5s ease;
     }
-    .menu-category-content.collapsed {
-      max-height: 500px;
+    .menu-category-content.expanded {
+      max-height: 5000px;
     }
     .show-more-btn {
       display: block;
@@ -389,7 +397,7 @@
       margin-left: 5px;
       transition: transform 0.3s;
     }
-    .show-more-btn.collapsed i {
+    .show-more-btn.expanded i {
       transform: rotate(180deg);
     }
 
@@ -547,7 +555,7 @@
     @media (max-width:1000px){ 
       .nav-links{display:none;} 
       .navbar { height:70px; }
-      .logo { height:45px; }
+      .logo { height:50px; }
       .hero img {
         max-height:280px;
       }
@@ -576,7 +584,7 @@
         height:65px;
       }
       .logo {
-        height:40px;
+        height:50px;
       }
       .menu-items {
         grid-template-columns: 1fr;
@@ -587,6 +595,9 @@
       }
       .menu-item {
         flex-direction: column;
+      }
+      .menu-category-content {
+        max-height: 300px;
       }
     }
     @media (max-width:600px) {
@@ -613,7 +624,7 @@
         scroll-margin-top: 70px;
       }
       .logo {
-        height: 38px;
+        height: 50px;
       }
       .navbar {
         height:60px;
@@ -623,6 +634,9 @@
       }
       .lang-switch {
         margin-right: 5px;
+      }
+      .menu-category-title {
+        font-size: 1.3rem;
       }
     }
     @media (max-width:400px) {
@@ -634,16 +648,10 @@
         font-size:0.8rem;
       }
       .logo {
-        height: 36px;
-      }
-      .logo-text div:first-child {
-        font-size: 1rem;
-      }
-      .logo-text div:last-child {
-        font-size: 0.6rem;
+        height: 50px;
       }
       .navbar {
-        height:58px;
+        height:60px;
       }
       .lang-switch button {
         padding:4px 8px;
@@ -651,6 +659,13 @@
       }
       .bottom-nav .text {
         font-size: 0.6rem;
+      }
+      .menu-item-title {
+        flex-direction: column;
+        gap: 5px;
+      }
+      .menu-item-price {
+        margin-left: auto;
       }
     }
   </style>
@@ -774,10 +789,10 @@
                 <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" alt="Vegetable Spring Rolls" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">1.</span> <span>Vegetable Spring Rolls</span></span>
+                    <span><span class="menu-item-number">1.</span> <span data-i18n="dish1">Vegetable Spring Rolls</span></span>
                     <span class="menu-item-price">€3.00</span>
                   </div>
-                  <div class="menu-item-desc">Served with Sweet & Sour sauce</div>
+                  <div class="menu-item-desc" data-i18n="dish1_desc">Served with Sweet & Sour sauce</div>
                 </div>
               </div>
               
@@ -785,10 +800,10 @@
                 <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80" alt="Japanese Dumplings" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">2.</span> <span>Japanese Dumplings</span></span>
+                    <span><span class="menu-item-number">2.</span> <span data-i18n="dish2">Japanese Dumplings</span></span>
                     <span class="menu-item-price">€5.00-€6.50</span>
                   </div>
-                  <div class="menu-item-desc">Deep Fried or steamed (Vegetable/Chicken/Prawn)</div>
+                  <div class="menu-item-desc" data-i18n="dish2_desc">Deep Fried or steamed (Vegetable/Chicken/Prawn)</div>
                 </div>
               </div>
               
@@ -796,10 +811,10 @@
                 <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" alt="Aromatic Duck" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">3.</span> <span>Aromatic Duck 1/4</span></span>
+                    <span><span class="menu-item-number">3.</span> <span data-i18n="dish3">Aromatic Duck 1/4</span></span>
                     <span class="menu-item-price">€11.00</span>
                   </div>
-                  <div class="menu-item-desc">Spring Onion, Cucumber, Carrot Pancakes & Hoisin Sauce</div>
+                  <div class="menu-item-desc" data-i18n="dish3_desc">Spring Onion, Cucumber, Carrot Pancakes & Hoisin Sauce</div>
                 </div>
               </div>
               
@@ -807,10 +822,10 @@
                 <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=600&q=80" alt="Spare Ribs" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">4.</span> <span>Spare Ribs</span></span>
+                    <span><span class="menu-item-number">4.</span> <span data-i18n="dish4">Spare Ribs</span></span>
                     <span class="menu-item-price">€5.50</span>
                   </div>
-                  <div class="menu-item-desc">With choice of sauce: BBQ / Salt Chili / Sweet Chili</div>
+                  <div class="menu-item-desc" data-i18n="dish4_desc">With choice of sauce: BBQ / Salt Chili / Sweet Chili</div>
                 </div>
               </div>
               
@@ -839,7 +854,7 @@
                 <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" alt="Chicken Satay" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">7.</span> <span>Chicken Satay</span></span>
+                    <span><span class="menu-item-number">7.</span> <span data-i18n="dish7">Chicken Satay</span></span>
                     <span class="menu-item-price">€6.50</span>
                   </div>
                 </div>
@@ -898,17 +913,17 @@
         
         <!-- Soups -->
         <div class="menu-category">
-          <h3 class="menu-category-title">Soups</h3>
+          <h3 class="menu-category-title" data-i18n="soups">Soups</h3>
           <div class="menu-category-content">
             <div class="menu-items">
               <div class="menu-item">
                 <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" alt="Tom Yum Soup" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">12.</span> <span>Tom Yum Soup</span></span>
+                    <span><span class="menu-item-number">12.</span> <span data-i18n="dish12">Tom Yum Soup</span></span>
                     <span class="menu-item-price">€5.00</span>
                   </div>
-                  <div class="menu-item-desc">Seafood, chicken or vegetable</div>
+                  <div class="menu-item-desc" data-i18n="dish12_desc">Seafood, chicken or vegetable</div>
                 </div>
               </div>
               
@@ -916,10 +931,10 @@
                 <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" alt="Peking Hot & Sour Soup" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">13.</span> <span>Peking Hot & Sour Soup</span></span>
+                    <span><span class="menu-item-number">13.</span> <span data-i18n="dish13">Peking Hot & Sour Soup</span></span>
                     <span class="menu-item-price">€5.00</span>
                   </div>
-                  <div class="menu-item-desc">Chicken or vegetable</div>
+                  <div class="menu-item-desc" data-i18n="dish13_desc">Chicken or vegetable</div>
                 </div>
               </div>
               
@@ -982,7 +997,7 @@
         
         <!-- Main Dishes -->
         <div class="menu-category">
-          <h3 class="menu-category-title">Main Dishes</h3>
+          <h3 class="menu-category-title" data-i18n="main_dishes">Main Dishes</h3>
           <div class="menu-category-content">
             <div class="menu-items">
               <div class="menu-item">
@@ -1000,10 +1015,10 @@
                 <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80" alt="Sweet & Sour Dishes" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">19.</span> <span>Sweet & Sour Dishes</span></span>
+                    <span><span class="menu-item-number">19.</span> <span data-i18n="dish19">Sweet & Sour Dishes</span></span>
                     <span class="menu-item-price">€10.50-€12.50</span>
                   </div>
-                  <div class="menu-item-desc">All dishes are served with vegetables</div>
+                  <div class="menu-item-desc" data-i18n="dish19_desc">All dishes are served with vegetables</div>
                 </div>
               </div>
               
@@ -1011,10 +1026,10 @@
                 <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" alt="Szechuan Dishes" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">20.</span> <span>Szechuan Dishes</span></span>
+                    <span><span class="menu-item-number">20.</span> <span data-i18n="dish20">Szechuan Dishes</span></span>
                     <span class="menu-item-price">€11.50-€13.50</span>
                   </div>
-                  <div class="menu-item-desc">Stir-fried spicy dishes served with vegetables</div>
+                  <div class="menu-item-desc" data-i18n="dish20_desc">Stir-fried spicy dishes served with vegetables</div>
                 </div>
               </div>
               
@@ -1033,10 +1048,10 @@
                 <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" alt="Black Bean Sauce Dishes" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">22.</span> <span>Black Bean Sauce Dishes</span></span>
+                    <span><span class="menu-item-number">22.</span> <span data-i18n="dish22">Black Bean Sauce Dishes</span></span>
                     <span class="menu-item-price">€10.50-€12.50</span>
                   </div>
-                  <div class="menu-item-desc">All dishes are served with vegetables</div>
+                  <div class="menu-item-desc" data-i18n="dish22_desc">All dishes are served with vegetables</div>
                 </div>
               </div>
               
@@ -1044,10 +1059,10 @@
                 <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80" alt="Teriyaki Dishes" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">23.</span> <span>Teriyaki Dishes</span></span>
+                    <span><span class="menu-item-number">23.</span> <span data-i18n="dish23">Teriyaki Dishes</span></span>
                     <span class="menu-item-price">€11.00-€13.00</span>
                   </div>
-                  <div class="menu-item-desc">All dishes are served with vegetables & sesame seeds</div>
+                  <div class="menu-item-desc" data-i18n="dish23_desc">All dishes are served with vegetables & sesame seeds</div>
                 </div>
               </div>
               
@@ -1221,10 +1236,10 @@
                 <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" alt="Lemon Chicken" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">38.</span> <span>Lemon Chicken</span></span>
+                    <span><span class="menu-item-number">38.</span> <span data-i18n="dish23">Lemon Chicken</span></span>
                     <span class="menu-item-price">€11.00</span>
                   </div>
-                  <div class="menu-item-desc">Lemon chicken pieces, flavoured in a citrus lemon sauce</div>
+                  <div class="menu-item-desc" data-i18n="dish23_desc">Lemon chicken pieces, flavoured in a citrus lemon sauce</div>
                 </div>
               </div>
               
@@ -1268,17 +1283,17 @@
       <div class="menu-section hidden" id="sushi-menu">
         <!-- Hoso Maki Rolls -->
         <div class="menu-category">
-          <h3 class="menu-category-title">Hoso Maki Rolls (All 8pcs)</h3>
+          <h3 class="menu-category-title" data-i18n="hoso_maki">Hoso Maki Rolls (All 8pcs)</h3>
           <div class="menu-category-content">
             <div class="menu-items">
               <div class="menu-item sushi-item">
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Far East California Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">101.</span> <span>Far East California Roll</span></span>
+                    <span><span class="menu-item-number">101.</span> <span data-i18n="sushi101">Far East California Roll</span></span>
                     <span class="menu-item-price">€9.50</span>
                   </div>
-                  <div class="menu-item-desc">Cucumber, crabstick, carrot, avocado with caviar & Japanese mayo on top</div>
+                  <div class="menu-item-desc" data-i18n="sushi101_desc">Cucumber, crabstick, carrot, avocado with caviar & Japanese mayo on top</div>
                 </div>
               </div>
               
@@ -1286,10 +1301,10 @@
                 <img src="https://images.unsplash.com/photo-1617196035154-1e1e6b01b5fa?auto=format&fit=crop&w=600&q=80" alt="Dragon Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">102.</span> <span>Dragon Roll</span></span>
+                    <span><span class="menu-item-number">102.</span> <span data-i18n="sushi102">Dragon Roll</span></span>
                     <span class="menu-item-price">€12.00</span>
                   </div>
-                  <div class="menu-item-desc">Cream cheese, tempura prawn, cucumber with avocado, eel sauce & sesame seeds on top</div>
+                  <div class="menu-item-desc" data-i18n="sushi102_desc">Cream cheese, tempura prawn, cucumber with avocado, eel sauce & sesame seeds on top</div>
                 </div>
               </div>
               
@@ -1297,10 +1312,10 @@
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Crunchy Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">103.</span> <span>Crunchy Roll</span></span>
+                    <span><span class="menu-item-number">103.</span> <span data-i18n="sushi103">Crunchy Roll</span></span>
                     <span class="menu-item-price">€11.50</span>
                   </div>
-                  <div class="menu-item-desc">Tempura prawn, cucumber, avocado with tempura flakes on top</div>
+                  <div class="menu-item-desc" data-i18n="sushi103_desc">Tempura prawn, cucumber, avocado with tempura flakes on top</div>
                 </div>
               </div>
               
@@ -1308,10 +1323,10 @@
                 <img src="https://images.unsplash.com/photo-1617196035154-1e1e6b01b5fa?auto=format&fit=crop&w=600&q=80" alt="Ebi Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">104.</span> <span>Ebi Roll</span></span>
+                    <span><span class="menu-item-number">104.</span> <span data-i18n="sushi104">Ebi Roll</span></span>
                     <span class="menu-item-price">€11.50</span>
                   </div>
-                  <div class="menu-item-desc">Ebi prawn, avocado, cucumber with tempura flakes on top</div>
+                  <div class="menu-item-desc" data-i18n="sushi104_desc">Ebi prawn, avocado, cucumber with tempura flakes on top</div>
                 </div>
               </div>
               
@@ -1319,10 +1334,10 @@
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Spicy Tuna Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">105.</span> <span>Spicy Tuna Roll</span></span>
+                    <span><span class="menu-item-number">105.</span> <span data-i18n="sushi105">Spicy Tuna Roll</span></span>
                     <span class="menu-item-price">€12.50</span>
                   </div>
-                  <div class="menu-item-desc">Fresh chopped tuna, cucumber, spicy mayo, togarashi, fresh onion (sesame seeds & togarashi on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi105_desc">Fresh chopped tuna, cucumber, spicy mayo, togarashi, fresh onion (sesame seeds & togarashi on top)</div>
                 </div>
               </div>
               
@@ -1330,10 +1345,10 @@
                 <img src="https://images.unsplash.com/photo-1617196035154-1e1e6b01b5fa?auto=format&fit=crop&w=600&q=80" alt="Vegetable Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">106.</span> <span>Vegetable Roll</span></span>
+                    <span><span class="menu-item-number">106.</span> <span data-i18n="sushi106">Vegetable Roll</span></span>
                     <span class="menu-item-price">€8.50</span>
                   </div>
-                  <div class="menu-item-desc">Avocado, mango, carrot, cucumber (sesame seeds on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi106_desc">Avocado, mango, carrot, cucumber (sesame seeds on top)</div>
                 </div>
               </div>
               
@@ -1341,10 +1356,10 @@
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Philadelphia Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">107.</span> <span>Philadelphia Roll</span></span>
+                    <span><span class="menu-item-number">107.</span> <span data-i18n="sushi107">Philadelphia Roll</span></span>
                     <span class="menu-item-price">€11.50</span>
                   </div>
-                  <div class="menu-item-desc">Cream cheese, avocado, fresh salmon (fresh salmon on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi107_desc">Cream cheese, avocado, fresh salmon (fresh salmon on top)</div>
                 </div>
               </div>
               
@@ -1352,10 +1367,10 @@
                 <img src="https://images.unsplash.com/photo-1617196035154-1e1e6b01b5fa?auto=format&fit=crop&w=600&q=80" alt="Spicy Salmon Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">108.</span> <span>Spicy Salmon Roll</span></span>
+                    <span><span class="menu-item-number">108.</span> <span data-i18n="sushi108">Spicy Salmon Roll</span></span>
                     <span class="menu-item-price">€12.50</span>
                   </div>
-                  <div class="menu-item-desc">Salmon tempura, avocado, cream cheese (fresh salmon, spicy mayo, caviar & chives on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi108_desc">Salmon tempura, avocado, cream cheese (fresh salmon, spicy mayo, caviar & chives on top)</div>
                 </div>
               </div>
               
@@ -1363,10 +1378,10 @@
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Salmon Teriyaki Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">109.</span> <span>Salmon Teriyaki Roll</span></span>
+                    <span><span class="menu-item-number">109.</span> <span data-i18n="sushi109">Salmon Teriyaki Roll</span></span>
                     <span class="menu-item-price">€12.50</span>
                   </div>
-                  <div class="menu-item-desc">Fried salmon, avocado, carrot (caviar, chives & teriyaki sauce on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi109_desc">Fried salmon, avocado, carrot (caviar, chives & teriyaki sauce on top)</div>
                 </div>
               </div>
               
@@ -1374,10 +1389,10 @@
                 <img src="https://images.unsplash.com/photo-1617196035154-1e1e6b01b5fa?auto=format&fit=crop&w=600&q=80" alt="Chef's Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">110.</span> <span>Chef's Roll</span></span>
+                    <span><span class="menu-item-number">110.</span> <span data-i18n="sushi110">Chef's Roll</span></span>
                     <span class="menu-item-price">€13.50</span>
                   </div>
-                  <div class="menu-item-desc">Crabstick, carrot, avocado, cucumber, mango, cream cheese (crab shell, caviar & spring onion on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi110_desc">Crabstick, carrot, avocado, cucumber, mango, cream cheese (crab shell, caviar & spring onion on top)</div>
                 </div>
               </div>
               
@@ -1385,10 +1400,10 @@
                 <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Far East Caterpillar Roll" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">111.</span> <span>Far East Caterpillar Roll</span></span>
+                    <span><span class="menu-item-number">111.</span> <span data-i18n="sushi111">Far East Caterpillar Roll</span></span>
                     <span class="menu-item-price">€13.50</span>
                   </div>
-                  <div class="menu-item-desc">Cream cheese, eel, cucumber, ebi prawn (avocado, eel sauce & caviar on top)</div>
+                  <div class="menu-item-desc" data-i18n="sushi111_desc">Cream cheese, eel, cucumber, ebi prawn (avocado, eel sauce & caviar on top)</div>
                 </div>
               </div>
             </div>
@@ -1401,14 +1416,14 @@
         
         <!-- Maki Rolls -->
         <div class="menu-category">
-          <h3 class="menu-category-title">Maki Rolls (All 6pcs)</h3>
+          <h3 class="menu-category-title" data-i18n="maki_rolls">Maki Rolls (All 6pcs)</h3>
           <div class="menu-category-content">
             <div class="menu-items">
               <div class="menu-item sushi-item">
                 <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=600&q=80" alt="Cucumber Maki" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">112.</span> <span>Cucumber Maki</span></span>
+                    <span><span class="menu-item-number">112.</span> <span data-i18n="sushi112">Cucumber Maki</span></span>
                     <span class="menu-item-price">€3.00</span>
                   </div>
                 </div>
@@ -1418,7 +1433,7 @@
                 <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="Salmon Maki" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">113.</span> <span>Salmon Maki</span></span>
+                    <span><span class="menu-item-number">113.</span> <span data-i18n="sushi113">Salmon Maki</span></span>
                     <span class="menu-item-price">€5.50</span>
                   </div>
                 </div>
@@ -1428,7 +1443,7 @@
                 <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=600&q=80" alt="Crabstick Maki" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">114.</span> <span>Crabstick Maki</span></span>
+                    <span><span class="menu-item-number">114.</span> <span data-i18n="sushi114">Crabstick Maki</span></span>
                     <span class="menu-item-price">€4.50</span>
                   </div>
                 </div>
@@ -1438,7 +1453,7 @@
                 <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="Avocado Maki" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">115.</span> <span>Avocado Maki</span></span>
+                    <span><span class="menu-item-number">115.</span> <span data-i18n="sushi115">Avocado Maki</span></span>
                     <span class="menu-item-price">€4.00</span>
                   </div>
                 </div>
@@ -1532,17 +1547,17 @@
         
         <!-- Sushi Platters -->
         <div class="menu-category">
-          <h3 class="menu-category-title">Sushi Platters</h3>
+          <h3 class="menu-category-title" data-i18n="sushi_platters">Sushi Platters</h3>
           <div class="menu-category-content">
             <div class="menu-items">
               <div class="menu-item sushi-item">
                 <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=600&q=80" alt="Fusion Combination" class="menu-item-img">
                 <div class="menu-item-content">
                   <div class="menu-item-title">
-                    <span><span class="menu-item-number">123.</span> <span>Fusion Combination 24pcs</span></span>
+                    <span><span class="menu-item-number">123.</span> <span data-i18n="sushi124">Fusion Combination 24pcs</span></span>
                     <span class="menu-item-price">€32.00</span>
                   </div>
-                  <div class="menu-item-desc">California Rolls, Vegetable Rolls, Crunchy Rolls</div>
+                  <div class="menu-item-desc" data-i18n="sushi124_desc">California Rolls, Vegetable Rolls, Crunchy Rolls</div>
                 </div>
               </div>
               
@@ -1664,7 +1679,7 @@
       <h2>Our Location</h2>
       <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:24px;">
         <div style="flex:1; min-width:280px;">
-          <p><strong>Far East Vrysoules</strong></p>
+          <p><strong>The Far East</strong></p>
           <p>Varosion 112, Deryneia, Cyprus</p>
           <div class="divider"></div>
           <p><strong>Opening Hours:</strong></p>
@@ -1794,6 +1809,20 @@
         sushi103_desc: "California roll topped with assorted sashimi",
         sushi104: "Spicy Tuna Roll",
         sushi104_desc: "Spicy tuna with cucumber and avocado",
+        sushi105: "Spicy Salmon Roll",
+        sushi105_desc: "Salmon tempura, avocado, cream cheese (fresh salmon, spicy mayo, caviar & chives on top)",
+        sushi106: "Vegetable Roll",
+        sushi106_desc: "Avocado, mango, carrot, cucumber (sesame seeds on top)",
+        sushi107: "Philadelphia Roll",
+        sushi107_desc: "Cream cheese, avocado, fresh salmon (fresh salmon on top)",
+        sushi108: "Spicy Salmon Roll",
+        sushi108_desc: "Salmon tempura, avocado, cream cheese (fresh salmon, spicy mayo, caviar & chives on top)",
+        sushi109: "Salmon Teriyaki Roll",
+        sushi109_desc: "Fried salmon, avocado, carrot (caviar, chives & teriyaki sauce on top)",
+        sushi110: "Chef's Roll",
+        sushi110_desc: "Crabstick, carrot, avocado, cucumber, mango, cream cheese (crab shell, caviar & spring onion on top)",
+        sushi111: "Far East Caterpillar Roll",
+        sushi111_desc: "Cream cheese, eel, cucumber, ebi prawn (avocado, eel sauce & caviar on top)",
         sushi112: "Tuna Maki",
         sushi113: "Cucumber Maki",
         sushi114: "Salmon Maki",
@@ -1885,6 +1914,20 @@
         sushi103_desc: "California roll με διάφορα sashimi από πάνω",
         sushi104: "Spicy Tuna Roll",
         sushi104_desc: "Πικάντικη τόννος με αγγούρι και αβοκάντο",
+        sushi105: "Spicy Salmon Roll",
+        sushi105_desc: "Σολομός tempura, αβοκάντο, κρέμα τυρί (φρέσκος σολομός, πικάντικη μαγιονέζα, χαβιάρι & σχοινόπρασο από πάνω)",
+        sushi106: "Λαχανικό Roll",
+        sushi106_desc: "Αβοκάντο, μάνγκο, καρότο, αγγούρι (σουσάμι από πάνω)",
+        sushi107: "Philadelphia Roll",
+        sushi107_desc: "Κρέμα τυρί, αβοκάντο, φρέσκος σολομός (φρέσκος σολομός από πάνω)",
+        sushi108: "Spicy Salmon Roll",
+        sushi108_desc: "Σολομός tempura, αβοκάντο, κρέμα τυρί (φρέσκος σολομός, πικάντικη μαγιονέζα, χαβιάρι & σχοινόπρασο από πάνω)",
+        sushi109: "Σολομός Teriyaki Roll",
+        sushi109_desc: "Τηγανητός σολομός, αβοκάντο, καρότο (χαβιάρι, σχοινόπρασο & σάλτσα teriyaki από πάνω)",
+        sushi110: "Chef's Roll",
+        sushi110_desc: "Crabstick, καρότο, αβοκάντο, αγγούρι, μάνγκο, κρέμα τυρί (κέλυφος καβουριού, χαβιάρι & φρέσκο κρεμμύδι από πάνω)",
+        sushi111: "Far East Caterpillar Roll",
+        sushi111_desc: "Κρέμα τυρί, χέλι, αγγούρι, γαρίδα ebi (αβοκάντο, σάλτσα χέλιου & χαβιάρι από πάνω)",
         sushi112: "Τόνος Maki",
         sushi113: "Αγγούρι Maki",
         sushi114: "Σολομός Maki",
@@ -1913,6 +1956,12 @@
       document.getElementById('btn-el').classList.toggle('active', lang === 'el');
       document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
       document.getElementById('btn-el').setAttribute('aria-pressed', lang === 'el');
+      
+      // Update form language
+      const langInput = document.querySelector('input[name="_language"]');
+      if (langInput) {
+        langInput.value = lang;
+      }
     }
 
     document.getElementById('btn-en').addEventListener('click', () => applyLang('en'));
@@ -1948,36 +1997,43 @@
       document.querySelectorAll('.show-more-btn').forEach(btn => {
         btn.addEventListener('click', function() {
           const categoryContent = this.parentElement.querySelector('.menu-category-content');
-          const isCollapsed = categoryContent.classList.contains('collapsed');
+          const isExpanded = categoryContent.classList.contains('expanded');
+          const lang = document.documentElement.getAttribute('data-lang') || 'en';
           
-          if (isCollapsed) {
-            categoryContent.classList.remove('collapsed');
-            this.querySelector('span').textContent = translations[document.documentElement.getAttribute('data-lang')]['show_less'];
+          if (isExpanded) {
+            categoryContent.classList.remove('expanded');
+            this.querySelector('span').textContent = translations[lang]['show_more'];
           } else {
-            categoryContent.classList.add('collapsed');
-            this.querySelector('span').textContent = translations[document.documentElement.getAttribute('data-lang')]['show_more'];
+            categoryContent.classList.add('expanded');
+            this.querySelector('span').textContent = translations[lang]['show_less'];
           }
           
-          this.classList.toggle('collapsed');
+          this.classList.toggle('expanded');
         });
       });
 
       // Collapse all menu categories by default on mobile
       if (window.innerWidth <= 850) {
         document.querySelectorAll('.menu-category-content').forEach(content => {
-          content.classList.add('collapsed');
+          content.classList.remove('expanded');
         });
       }
 
       // smooth scroll to sections accounting for fixed header
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
+          if (this.getAttribute('href') === '#') return;
+          
           e.preventDefault();
           const targetId = this.getAttribute('href');
           const targetElement = document.querySelector(targetId);
           if (targetElement) {
+            const offset = 80; // navbar height
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
             window.scrollTo({
-              top: targetElement.offsetTop - 80,
+              top: offsetPosition,
               behavior: 'smooth'
             });
           }
